@@ -1,4 +1,5 @@
 const express = require('express')
+var cors = require('cors')
 
 const app = express()
 const port = parseInt(process.env.PORT || '', 10) || 8080
@@ -9,6 +10,8 @@ app.use(express.static('public'))
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+app.use(cors())
 
 const messages = []
 let lastUpdate = 0
