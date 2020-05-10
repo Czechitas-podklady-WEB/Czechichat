@@ -40,6 +40,9 @@ const createMessage = (name, message) => {
 }
 
 createMessage('Server', 'Hello, World! 🌍')
+setTimeout(() => {
+	createMessage('Server', 'How are you?')
+}, 3000)
 
 const respondBadRequestPayload = (response, message) => {
 	response.status(400).send({
