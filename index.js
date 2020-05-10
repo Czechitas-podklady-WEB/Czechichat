@@ -37,6 +37,13 @@ const createMessage = (name, message) => {
 
 createMessage('Server', 'Hello, World! 🌍')
 
+const respondBadRequestPayload = (response, message) => {
+	response.status(400).send({
+		status: 'error',
+		message: `${message} See https://czechichat.herokuapp.com/documentation/ for more details.`,
+	})
+}
+
 app.post('/send-message', function (request, response) {
 	const { name, message } = request.body
 
@@ -44,12 +51,20 @@ app.post('/send-message', function (request, response) {
 		createMessage(name || 'Anonymous', message)
 		response.send({ status: 'ok', message: 'Message has been received.' })
 	} else {
-		response.send({ status: 'error', message: 'Name or message is missing.' })
+		respondBadRequestPayload(response, 'Name or message string is missing.')
 	}
+})
+
+app.get('/send-message', function (request, response) {
+	respondBadRequestPayload(response, 'Only POST method is allowed.')
 })
 
 app.get('/list-messages', function (request, response) {
 	response.send({ messages, lastUpdate: lastUpdate.getTime() })
+})
+
+app.get('/list-messages', function (request, response) {
+	respondBadRequestPayload(response, 'Only GET method is allowed.')
 })
 
 app.listen(port, () =>
