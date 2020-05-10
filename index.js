@@ -16,7 +16,7 @@ const createMessage = (name, message) => {
 		d.getMonth() + 1
 	}. ${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
 
-	messages.push({
+	messages.unshift({
 		name,
 		message,
 		date,
