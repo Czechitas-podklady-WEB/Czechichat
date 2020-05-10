@@ -16,11 +16,15 @@ app.use(cors())
 const messages = []
 let lastUpdate = 0
 
+const twoDigits = (input) => input.toString().padStart(2, '0')
+
 const createMessage = (name, message) => {
 	const d = new Date()
 	const date = `${d.getDate()}. ${
 		d.getMonth() + 1
-	}. ${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+	}. ${d.getFullYear()} ${d.getHours()}:${twoDigits(
+		d.getMinutes(),
+	)}:${twoDigits(d.getSeconds())}`
 
 	messages.unshift({
 		name,
