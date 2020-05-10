@@ -24,7 +24,7 @@
 		<code> &lt;script&gt;</code>
 		<div>
 			<textarea readonly rows="7">
-fetch('/send-message', {
+fetch('https://czechichat.herokuapp.com/send-message', {
 	method: 'POST',
 	headers: {
 		'content-type': 'application/json'
@@ -39,7 +39,7 @@ fetch('/send-message', {
 		<code> &lt;script&gt;</code>
 		<div>
 			<textarea readonly rows="3">
-fetch('/list-messages')
+fetch('https://czechichat.herokuapp.com/list-messages')
 	.then(response => response.json())
 	.then(data => console.log(data.messages))</textarea
 			>
