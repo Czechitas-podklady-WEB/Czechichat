@@ -44,7 +44,7 @@ const respondBadRequestPayload = (response, message) => {
 	})
 }
 
-app.post('/send-message', function (request, response) {
+app.post('/api/send-message', function (request, response) {
 	const { name, message } = request.body
 
 	if (typeof name === 'string' && typeof message === 'string') {
@@ -55,15 +55,15 @@ app.post('/send-message', function (request, response) {
 	}
 })
 
-app.get('/send-message', function (request, response) {
+app.get('/api/send-message', function (request, response) {
 	respondBadRequestPayload(response, 'Only POST method is allowed.')
 })
 
-app.get('/list-messages', function (request, response) {
+app.get('/api/list-messages', function (request, response) {
 	response.send({ messages, lastUpdate: lastUpdate.getTime() })
 })
 
-app.get('/list-messages', function (request, response) {
+app.get('/api/list-messages', function (request, response) {
 	respondBadRequestPayload(response, 'Only GET method is allowed.')
 })
 

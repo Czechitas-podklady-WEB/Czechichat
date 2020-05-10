@@ -38,7 +38,7 @@
 					</div>
 				</div>
 			</template>
-			<form id="send-form" method="POST" action="/send-message">
+			<form id="send-form" method="POST" action="/api/send-message">
 				<div class="form-row">
 					<div class="form-group col-md-3">
 						<label for="name-input">Your name:</label>
@@ -94,7 +94,7 @@
 			}
 
 			const getMessages = () => {
-				return fetch('/list-messages').then((response) => response.json())
+				return fetch('/api/list-messages').then((response) => response.json())
 			}
 
 			const renderMessages = (messages) => {
