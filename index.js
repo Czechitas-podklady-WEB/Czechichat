@@ -3,6 +3,8 @@ const express = require('express')
 const app = express()
 const port = parseInt(process.env.PORT || '', 10) || 8080
 
+const LIMIT_MESSAGES_COUNT = 100
+
 app.use(express.static('public'))
 
 app.use(express.urlencoded({ extended: true }))
@@ -21,6 +23,10 @@ const createMessage = (name, message) => {
 		message,
 		date,
 	})
+
+	if (messages.length > LIMIT_MESSAGES_COUNT) {
+		messages.pop()
+	}
 }
 
 createMessage('Server', 'Hello, World! 🌍')
