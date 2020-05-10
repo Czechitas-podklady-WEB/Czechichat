@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 const messages = []
+let lastUpdate = 0
 
 const createMessage = (name, message) => {
 	const d = new Date()
@@ -23,6 +24,8 @@ const createMessage = (name, message) => {
 		message,
 		date,
 	})
+
+	lastUpdate = new Date()
 
 	if (messages.length > LIMIT_MESSAGES_COUNT) {
 		messages.pop()
@@ -43,7 +46,7 @@ app.post('/send-message', function (request, response) {
 })
 
 app.get('/list-messages', function (request, response) {
-	response.send({ messages })
+	response.send({ messages, lastUpdate: lastUpdate.getTime() })
 })
 
 app.listen(port, () =>

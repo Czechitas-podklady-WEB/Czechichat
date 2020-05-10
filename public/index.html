@@ -14,6 +14,14 @@
 			body {
 				overflow-y: scroll;
 			}
+			@keyframes new-message {
+				0% {
+					background-color: #ffffd3;
+				}
+			}
+			.card {
+				animation: new-message 1s;
+			}
 		</style>
 	</head>
 	<body>
@@ -72,6 +80,7 @@
 			const messageTemplateElement = document.querySelector('#message-template')
 			const messagesElement = document.querySelector('#messages')
 			const submitButtonElement = document.querySelector('#submit-button')
+			let lastUpdate = 0
 
 			const sendMessage = (name, message) => {
 				return fetch(sendFormElement.getAttribute('action'), {
@@ -84,9 +93,7 @@
 			}
 
 			const getMessages = () => {
-				return fetch('/list-messages')
-					.then((response) => response.json())
-					.then((data) => data.messages)
+				return fetch('/list-messages').then((response) => response.json())
 			}
 
 			const renderMessages = (messages) => {
@@ -103,7 +110,13 @@
 				})
 			}
 
-			const updateMessages = () => getMessages().then(renderMessages)
+			const updateMessages = () =>
+				getMessages().then((data) => {
+					if (lastUpdate !== data.lastUpdate) {
+						lastUpdate = data.lastUpdate
+						renderMessages(data.messages)
+					}
+				})
 
 			const updateLoop = () => {
 				updateMessages().then(setTimeout(updateLoop, 1500))
