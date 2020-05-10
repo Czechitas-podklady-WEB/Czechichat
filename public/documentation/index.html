@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Documentation | Czechichat</title>
+		<style>
+			body {
+				font-family: sans-serif;
+			}
+			textarea {
+				box-sizing: border-box;
+				margin-left: 2em;
+				width: calc(100% - 2em);
+				tab-size: 4;
+				resize: none;
+				border: none;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Czechichat documentation</h1>
+		<h2>Send message</h2>
+		<code> &lt;script&gt;</code>
+		<div>
+			<textarea readonly rows="7">
+fetch('/send-message', {
+	method: 'POST',
+	headers: {
+		'content-type': 'application/json'
+	},
+	body: '{"name":"John","message":"Hi there!"}'
+})</textarea
+			>
+		</div>
+		<code>&lt;/script&gt;</code>
+
+		<h2>Get recent messages</h2>
+		<code> &lt;script&gt;</code>
+		<div>
+			<textarea readonly rows="3">
+fetch('/list-messages')
+	.then(response => response.json())
+	.then(data => console.log(data.messages))</textarea
+			>
+		</div>
+		<code>&lt;/script&gt;</code>
+	</body>
+</html>
