@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Czechichat</title>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+			crossorigin="anonymous"
+		/>
+	</head>
+	<body>
+		<div class="container">
+			<h1 class="mt-5 mb-5 text-center">Czechichat</h1>
+			<template id="message-template">
+				<div class="card mt-3 mb-3">
+					<div class="card-body">
+						<h5 class="card-title">
+							<span class="js-output-name"></span>
+							<small class="text-muted js-output-date"></small>
+						</h5>
+						<p class="card-text js-output-message"></p>
+					</div>
+				</div>
+			</template>
+			<div id="messages"></div>
+			<form id="send-form" method="POST" action="/send-message">
+				<div class="form-row">
+					<div class="form-group col-md-3">
+						<label for="name-input">Name</label>
+						<input
+							name="name"
+							type="text"
+							class="form-control"
+							id="name-input"
+						/>
+					</div>
+					<div class="form-group col-md-7">
+						<label for="message-input">Message</label>
+						<input
+							name="message"
+							type="text"
+							class="form-control"
+							id="message-input"
+						/>
+					</div>
+					<div class="form-group col-md-2 align-self-end">
+						<button
+							type="submit"
+							class="btn btn-primary btn-block"
+							id="submit-button"
+						>
+							Send
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<script>
+			const sendFormElement = document.querySelector('#send-form')
+			const nameInputElement = document.querySelector('#name-input')
+			const messageInputElement = document.querySelector('#message-input')
+			const messageTemplateElement = document.querySelector('#message-template')
+			const messagesElement = document.querySelector('#messages')
+			const submitButtonElement = document.querySelector('#submit-button')
+
+			const sendMessage = (name, message) => {
+				return fetch(sendFormElement.getAttribute('action'), {
+					method: sendFormElement.getAttribute('method'),
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ name, message }),
+				})
+			}
+
+			const getMessages = () => {
+				return fetch('/list-messages')
+					.then((response) => response.json())
+					.then((data) => data.messages)
+			}
+
+			const renderMessages = (messages) => {
+				messagesElement.innerHTML = ''
+
+				messages.forEach((message) => {
+					const messageElement = messageTemplateElement.cloneNode(true).content
+						.firstElementChild
+					;['name', 'message', 'date'].forEach((field) => {
+						messageElement.querySelector(`.js-output-${field}`).textContent =
+							message[field]
+						messagesElement.appendChild(messageElement)
+					})
+				})
+			}
+
+			const updateMessages = () => getMessages().then(renderMessages)
+
+			const updateLoop = () => {
+				updateMessages().then(setTimeout(updateLoop, 1500))
+			}
+
+			updateLoop()
+
+			sendFormElement.addEventListener('submit', (event) => {
+				event.preventDefault()
+				const name = nameInputElement.value
+				const message = messageInputElement.value
+
+				nameInputElement.setAttribute('readonly', true)
+				messageInputElement.setAttribute('readonly', true)
+				submitButtonElement.setAttribute('disabled', true)
+				sendMessage(name, message)
+					.then(updateMessages)
+					.then(() => {
+						nameInputElement.removeAttribute('readonly')
+						messageInputElement.removeAttribute('readonly')
+
+						messageInputElement.value = ''
+						messageInputElement.focus()
+					})
+					.catch((error) => console.error(error))
+					.then(() => {
+						submitButtonElement.removeAttribute('disabled')
+					})
+			})
+		</script>
+	</body>
+</html>
