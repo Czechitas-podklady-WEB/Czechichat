@@ -35,7 +35,7 @@ app.post('/send-message', function (request, response) {
 	const { name, message } = request.body
 
 	if (typeof name === 'string' && typeof message === 'string') {
-		createMessage(name, message)
+		createMessage(name || 'Anonymous', message)
 		response.send({ status: 'ok', message: 'Message has been received.' })
 	} else {
 		response.send({ status: 'error', message: 'Name or message is missing.' })
