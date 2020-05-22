@@ -1,5 +1,5 @@
 const express = require('express')
-var cors = require('cors')
+const cors = require('cors')
 
 const app = express()
 const port = parseInt(process.env.PORT || '', 10) || 8080
