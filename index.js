@@ -70,7 +70,7 @@ app.get('/api/list-messages', function (request, response) {
 	response.send({ messages, lastUpdate: lastUpdate.getTime() })
 })
 
-app.get('/api/list-messages', function (request, response) {
+app.post('/api/list-messages', function (request, response) {
 	respondBadRequestPayload(response, 'Only GET method is allowed.')
 })
 
