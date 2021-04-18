@@ -20,6 +20,7 @@ const createMessage = (name, message) => {
 	const date = new Date().toLocaleDateString('cs-CZ', {
 		dateStyle: 'long',
 		timeStyle: 'medium',
+		timeZone: 'Europe/Prague',
 	})
 
 	messages.unshift({
