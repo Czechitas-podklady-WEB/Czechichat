@@ -15,6 +15,7 @@ app.use(cors())
 
 const messages = []
 let lastUpdate = 0
+let lastMessageId = 0
 
 const createMessage = (name, message) => {
 	const date = new Date().toLocaleDateString('cs-CZ', {
@@ -27,6 +28,7 @@ const createMessage = (name, message) => {
 		name,
 		message,
 		date,
+		id: ++lastMessageId,
 	})
 
 	lastUpdate = new Date()
