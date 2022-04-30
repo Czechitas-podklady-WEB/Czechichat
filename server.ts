@@ -1,7 +1,11 @@
 import { serve } from "https://deno.land/std@0.136.0/http/server.ts";
 import staticFiles from "https://deno.land/x/static_files@1.1.6/mod.ts";
+import { parse } from "https://deno.land/std@0.137.0/flags/mod.ts";
 
-const port = 8080;
+const { args } = Deno;
+const DEFAULT_PORT = 8080;
+const argPort = parse(args).port;
+const port = argPort ? Number(argPort) : DEFAULT_PORT;
 
 const LIMIT_MESSAGES_COUNT = 100;
 
