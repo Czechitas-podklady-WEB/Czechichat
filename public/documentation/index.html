@@ -26,7 +26,7 @@
 			<code>&lt;script&gt;</code>
 			<div>
 				<textarea class="form-control" readonly rows="3">
-fetch('https://czechichat.herokuapp.com/api/list-messages')
+fetch('/api/list-messages')
 	.then(response => response.json())
 	.then(data => console.log(data.messages))</textarea
 				>
@@ -37,7 +37,7 @@ fetch('https://czechichat.herokuapp.com/api/list-messages')
 			<code>&lt;script&gt;</code>
 			<div>
 				<textarea class="form-control" readonly rows="7">
-fetch('https://czechichat.herokuapp.com/api/send-message', {
+fetch('/api/send-message', {
 	method: 'POST',
 	headers: {
 		'content-type': 'application/json'
@@ -56,5 +56,15 @@ fetch('https://czechichat.herokuapp.com/api/send-message', {
 				<a href="https://github.com/FilipChalupa/Czechichat">GitHub</a>
 			</footer>
 		</div>
+		<script>
+			const areas = document.querySelectorAll('textarea')
+			areas.forEach((area) => {
+				console.log(area.value)
+				area.value = area.value.replaceAll(
+					"fetch('",
+					`fetch('${location.origin}`,
+				)
+			})
+		</script>
 	</body>
 </html>
