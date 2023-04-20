@@ -1,7 +1,7 @@
 # Czechichat
 
-- Live preview: [czechichat.herokuapp.com](https://czechichat.herokuapp.com/)
-- Documentation: [czechichat.herokuapp.com/documentation/](https://czechichat.herokuapp.com/documentation/)
+- Live preview: [czechichat.deno.dev](https://czechichat.deno.dev/)
+- Documentation: [czechichat.deno.dev/documentation/](https://czechichat.deno.dev/documentation/)
 
 ## Run
 
