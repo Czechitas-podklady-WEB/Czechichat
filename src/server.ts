@@ -9,16 +9,32 @@ const port = argPort ? Number(argPort) : DEFAULT_PORT
 
 const LIMIT_MESSAGES_COUNT = 100
 
-const messages: Array<{
+type Message = {
 	name: string
 	message: string
 	date: string
 	id: number
-}> = []
+}
+const messages: Message[] = []
 let lastUpdate = new Date()
 let lastMessageId = 0
 
-const createMessage = (name: string, message: string) => {
+const broadcastMessage = (() => {
+	// @TODO: test this
+	const channel = "BroadcastChannel" in globalThis
+		? new BroadcastChannel("global")
+		: null
+	if (channel) {
+		channel.onmessage = (event: MessageEvent) => {
+			messages.push(event.data)
+		}
+	}
+	return (message: Message) => {
+		channel?.postMessage(message)
+	}
+})()
+
+const createMessage = (name: string, text: string) => {
 	const timeZone = "Europe/Prague"
 	const now = new Date()
 	const date = now.toLocaleDateString("cs-CZ", {
@@ -33,12 +49,15 @@ const createMessage = (name: string, message: string) => {
 		timeZone,
 	})
 
-	messages.unshift({
+	const message = {
 		name,
-		message,
+		message: text,
 		date: `${date} ${time}`,
 		id: ++lastMessageId,
-	})
+	}
+	messages.unshift(message)
+
+	broadcastMessage(message)
 
 	lastUpdate = now
 
