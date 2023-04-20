@@ -1,0 +1,11 @@
+{
+	"fmt": {
+		"files": {
+			"include": ["src/"]
+		},
+		"options": {
+			"useTabs": true,
+			"semiColons": false
+		}
+	}
+}

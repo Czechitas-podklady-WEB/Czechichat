@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.136.0/http/server.ts";
-import staticFiles from "https://deno.land/x/static_files@1.1.6/mod.ts";
 import { parse } from "https://deno.land/std@0.137.0/flags/mod.ts";
+import staticFiles from "https://deno.land/x/static_files@1.1.6/mod.ts";
 
 const { args } = Deno;
 const DEFAULT_PORT = 8080;
@@ -83,10 +83,13 @@ const handler = async (request: Request): Promise<Response> => {
     // List messages
     if (url.pathname === "/api/list-messages") {
       if (request.method !== "GET") {
-        return createJsonResponse({
-          status: "error",
-          message: "Only GET method is allowed.",
-        }, 400);
+        return createJsonResponse(
+          {
+            status: "error",
+            message: "Only GET method is allowed.",
+          },
+          400,
+        );
       }
 
       return createJsonResponse({
@@ -98,10 +101,13 @@ const handler = async (request: Request): Promise<Response> => {
     // Send message
     if (url.pathname === "/api/send-message") {
       if (request.method !== "POST") {
-        return createJsonResponse({
-          status: "error",
-          message: "Only POST method is allowed.",
-        }, 400);
+        return createJsonResponse(
+          {
+            status: "error",
+            message: "Only POST method is allowed.",
+          },
+          400,
+        );
       }
 
       const { name, message } = await request.json();
@@ -113,10 +119,13 @@ const handler = async (request: Request): Promise<Response> => {
           message: "Message has been received.",
         });
       } else {
-        return createJsonResponse({
-          status: "error",
-          message: "Name or message string is missing.",
-        }, 400);
+        return createJsonResponse(
+          {
+            status: "error",
+            message: "Name or message string is missing.",
+          },
+          400,
+        );
       }
     }
 
