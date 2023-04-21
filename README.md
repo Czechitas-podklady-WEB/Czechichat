@@ -7,11 +7,11 @@
 ## Run
 
 ```sh
-deno run --allow-net --allow-read src/server.ts
+deno run --unstable --allow-net --allow-read src/server.ts
 ```
 
 ## Development
 
 ```sh
-denon run --allow-net --allow-read src/server.ts
+denon run --unstable --allow-net --allow-read src/server.ts
 ```
