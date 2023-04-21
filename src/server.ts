@@ -21,7 +21,7 @@ let lastMessageId = 0
 
 const channel = new BroadcastChannel("messages")
 channel.onmessage = (event: MessageEvent) => {
-	messages.push(event.data)
+	createMessage(event.data.name, event.data.text, false)
 }
 
 const createMessage = (
@@ -52,7 +52,7 @@ const createMessage = (
 	messages.unshift(message)
 
 	if (broadcast) {
-		channel.postMessage(message)
+		channel.postMessage({ name, text })
 	}
 
 	lastUpdate = now
