@@ -24,7 +24,7 @@ channel.onmessage = (event: MessageEvent) => {
 	messages.push(event.data)
 }
 
-const createMessage = (name: string, text: string) => {
+const createMessage = (name: string, text: string, broadcast: boolean) => {
 	const timeZone = 'Europe/Prague'
 	const now = new Date()
 	const date = now.toLocaleDateString('cs-CZ', {
@@ -47,7 +47,9 @@ const createMessage = (name: string, text: string) => {
 	}
 	messages.unshift(message)
 
-	channel.postMessage(message)
+	if (broadcast) {
+		channel.postMessage(message)
+	}
 
 	lastUpdate = now
 
@@ -56,9 +58,9 @@ const createMessage = (name: string, text: string) => {
 	}
 }
 
-createMessage('Server', 'Hello, World! 🌍')
+createMessage('Server', 'Hello, World! 🌍', false)
 setTimeout(() => {
-	createMessage('Server', 'How are you?')
+	createMessage('Server', 'How are you?', false)
 }, 3000)
 
 const createJsonResponse = (
@@ -122,7 +124,7 @@ const handler = async (request: Request): Promise<Response> => {
 			const { name, message } = await request.json()
 
 			if (typeof name === 'string' && typeof message === 'string') {
-				createMessage(name || 'Anonymous', message)
+				createMessage(name || 'Anonymous', message, true)
 				return createJsonResponse({
 					status: 'ok',
 					message: 'Message has been received.',
